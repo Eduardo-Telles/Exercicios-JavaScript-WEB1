@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <p>Digite o conteúdo</p>
+        <input type="text" required>
+        <button>Enviar</button>
+    </form>
+    <ul>
+    </ul>
+    <script>
+        let form=document.querySelector("form");
+        form.addEventListener("submit",(e) => {
+            e.preventDefault();
+            let entrada=document.querySelector("input");
+            let existe=0;
+            let lista=document.querySelectorAll("ul li");
+            for(let x=0;x<lista.length;x++){
+                if(lista[x].querySelector("p").innerText==entrada.value){
+                    lista[x].remove();
+                    existe=1;
+                }
+            }
+            if(existe==0){
+                let ul=document.querySelector("ul");
+                let li=document.createElement("li");
+                let texto=document.createElement("p");
+                let botao=document.createElement("button");
+                 botao.addEventListener("click",(e)=>{
+                    e.target.parentElement.remove();
+                });
+                botao.innerText="Deletar";
+                texto.innerText=entrada.value;
+                li.append(texto,botao);
+                ul.append(li);
+            }
+            
+        });
+
+    </script>
+</body>
+</html>

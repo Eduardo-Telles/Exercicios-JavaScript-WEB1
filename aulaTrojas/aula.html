@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>Botao</button>
+    <p>Hoje vou aprender html</p>
+    <input type="password" placeholder="digite Aqui" value="TRojanadas">
+    <script> 
+        const botao=document.querySelector("button");
+        botao.addEventListener("click",(e) => { 
+            let p=document.querySelector("p");
+            let input=document.querySelector("input");
+            console.log(input.value);
+            console.log(input.getAttribute("type"));
+            p.innerText=input.value;
+            input.value="";
+            input.type;
+            input.name;
+            input.id;
+            input.getAttribute("type");
+            input.setAttribute("class","azul center");
+        });
+    </script>
+</body>
+</html>

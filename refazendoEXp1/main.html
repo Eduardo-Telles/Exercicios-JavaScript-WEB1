@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            
+            max-width: 300px;
+            border: solid;
+            border-radius: 10px;
+        }
+        form>input{
+            height: 23px;
+            border-radius: 10px;
+        }
+        form>h2,
+        form>p,
+        form>input{
+            margin-left: 50px;
+        }
+        form>button{
+            display:block;
+            margin-top: 15px;
+            height: 30px;
+            width: 300px;
+            color: white;
+            background-color: rgba(23, 23, 140, 0.87);
+        }
+        .container{
+            display: flex;
+            gap: 50px;
+        }
+        table{
+            border: solid;
+            border-radius: 10px;
+            border-collapse: collapse;
+        }
+        table>tr>th{
+            padding: 0 15px;
+            border-bottom: 1px solid black;
+        }
+        table>tr>td{
+            text-align: center;
+            align-items: center;
+            border-right: 1px solid black;
+
+        }
+        table>tr>button{
+            color: white;
+        }
+        .deletar{
+            background-color: red;
+        }
+        .maispeso{
+            background-color: green;
+        }
+        .menospeso{
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function saberImc(imc){
+            let status=document.createElement("td");
+            if(Number(imc)>30){
+                    status.innerText="Obesidade";
+            }
+            else if(Number(imc)>=25){
+                    status.innerText="Sobrepeso";
+            }
+            else if(Number(imc)>=18.5){
+                    status.innerText="Peso normal";
+            }
+            else{
+                    status.innerText="Abaixo do peso";
+            }
+            return status.innerText;
+        }
+        let titulo=document.createElement("h1");
+        titulo.innerText="CALCULADORA IMBOSTA";
+        let descricao=document.createElement("p");
+        descricao.innerText="Descrição de bosta do IMC";
+        let form=document.createElement("form");
+        let titulocadastro=document.createElement("h2");
+        let text1=document.createElement("p");
+        let text2=document.createElement("p");
+        let text3=document.createElement("p");
+        titulocadastro.innerText="CADASTRO";
+        text1.innerText="NOME:"
+        text2.innerText="ALTURA:"
+        text3.innerText="PESO:"
+        let nome=document.createElement("input");
+        let altura=document.createElement("input");
+        let peso=document.createElement("input");
+        let botao=document.createElement("button");
+        botao.innerText="CADASTRAR";
+        nome.required=true;
+        altura.type="number";
+        altura.step="0.01";
+        altura.required=true;
+        peso.type="number";
+        peso.step="0.01";
+        peso.required=true;
+        form.append(titulocadastro,text1,nome,text2,altura,text3,peso,botao);
+        let tabela=document.createElement("table");
+        let tr=document.createElement("tr");
+        let thead1=document.createElement("th");
+        let thead2=document.createElement("th");
+        let thead3=document.createElement("th");
+        let thead4=document.createElement("th");
+        let thead5=document.createElement("th");
+        let thead6=document.createElement("th");
+        thead1.innerText="NOME";
+        thead2.innerText="ALTURA";
+        thead3.innerText="PESO";
+        thead4.innerText="IMC";
+        thead5.innerText="STATUS";
+        thead6.innerText="OPÇÕES";
+        let areaTabela=document.createElement("div");
+        let titulotabela=document.createElement("h2");
+        titulotabela.innerText="CADASTRADOS"
+        tr.append(thead1,thead2,thead3,thead4,thead5,thead6);
+        tabela.append(tr);
+        areaTabela.append(titulotabela,tabela);
+        let container=document.createElement("div");
+        container.classList.add("container");
+        container.append(form,areaTabela);
+        document.body.append(titulo,descricao,container);
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            let trNovo=document.createElement("tr");
+            let nometabela=document.createElement("td");
+            let alturatabela=document.createElement("td");
+            let pesotabela=document.createElement("td");
+            nometabela.innerText=nome.value;
+            alturatabela.innerText=altura.value;
+            pesotabela.innerText=peso.value;
+            if(Number(peso.value)>500 || Number(peso.value)<20){
+                alert("Nenhum humano tem esse peso!")
+            }
+            else if(Number(altura.value)>3 || Number(altura.value)<0.5){
+                alert("Nenhum humano tem essa altura!")
+            }
+            else{
+                let imc=document.createElement("td");
+                let status=document.createElement("td");
+                let opcoes=document.createElement("td");
+                imc.innerText=peso.value/(altura.value*altura.value);
+                status.innerText=saberImc(imc.innerText);
+                let botaomaispeso=document.createElement("button");
+                botaomaispeso.className="maispeso";
+                let botaomenospeso=document.createElement("button");
+                botaomenospeso.className="menospeso";
+                let botaoDel=document.createElement("button");
+                botaoDel.className="deletar";
+                botaomaispeso.innerText="+Peso";
+                botaomenospeso.innerText="-Peso"
+                botaoDel.innerText="Deletar";
+                botaomaispeso.addEventListener("click",(e)=>{
+                    pesotabela.innerText=Number(pesotabela.innerText)+1
+                    imc.innerText=pesotabela.innerText/(alturatabela.innerText*alturatabela.innerText)
+                    status.innerText=saberImc(imc.innerText);
+                })
+                botaomenospeso.addEventListener("click",(e)=>{
+                    pesotabela.innerText=Number(pesotabela.innerText)-1;
+                    imc.innerText=pesotabela.innerText/(alturatabela.innerText*alturatabela.innerText);
+                    status.innerText=saberImc(imc.innerText);
+                })
+                botaoDel.addEventListener("click",(e)=>{
+                    trNovo.remove();
+                })
+                opcoes.append(botaomaispeso,botaomenospeso,botaoDel);   
+                trNovo.append(nometabela,alturatabela,pesotabela,imc,status,opcoes);
+                tabela.append(trNovo);
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            border: solid 3px;
+            width: 430px;
+            height: 470px;
+            border-radius: 10px;
+        }
+        label{
+            margin-left: 10px;
+            font-size: 25px;
+        }
+        input {
+            display: block;
+            margin-bottom: 15px;
+            width: 400px;
+            height: 25px;
+            margin-left: 10px;
+        }
+        form>button{
+            background-color: rgb(56, 56, 180);
+            color: white;
+            width: 410px;
+            height: 40px;
+            margin-left: 10px;
+            font-size: 25px;
+        }
+        td>button{
+            color: black;
+            width: 80px;
+            height: 30px;
+            margin-right: 7px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+        #botao1{
+            background-color: rgb(6, 190, 86);
+        }
+        #botao2{
+            background-color: rgb(223, 223, 5);
+        }
+        #botao3{
+            background-color: rgb(188, 7, 7);
+        }
+        th>b{
+            margin: 10px;
+        }
+        td{
+            text-align: center;
+        }
+        table{
+            border: solid 3px;
+            width: 800px;
+        }
+        h2{
+            text-align: center;
+        }
+        h1{
+            text-align: center;
+        }
+        p{
+            text-align: center;
+        }
+        .container{
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+        }
+        .container-tabela{
+            width: 800px;
+        }
+        .container-tabela{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>CALCULADORA IMC</h1>
+    <p>O IMC é uma medida simplificada e não deve ser utilizado como única referência para avaliar a saúde ou o peso de uma pessoa. Outros fatores individuais também devem ser considerados.</p>
+    <div class="container">
+        <form>
+            <h2>CADASTRAR</h2>
+            <label>Nome
+                <input type="text" name="texto_usuario" required>
+            </label>       
+            <label>Altura
+                <input type="number" name="altura" step="0.01" required>
+            </label>
+            <label>Peso
+                <input type="number" name="peso" step="0.01" required>
+            </label>
+            <button>Cadastrar</button>
+        </form>
+        <div class="container-tabela">
+            <h2>PESSOAS CADASTRADAS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><b>Nome</b></th>
+                        <th><b>Altura(m)</b></th>
+                        <th><b>Peso(KG)</b></th>
+                        <th><b>IMC</b></th>
+                        <th><b>Status</b></th>
+                        <th><b>Opções</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        let form=document.querySelector("form");
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            let tabela=document.querySelector("table");
+            let corpo=document.querySelector("tbody");
+            let criar_tr=document.createElement("tr");
+            let entradas=document.querySelectorAll("input");
+            if(entradas[1].value>2.72){
+                alert("Não é permitido essa altura ultrapassa o maior homem do mundo!")
+            }
+            else if(entradas[1].value<0.54){
+                alert("Não é permitido essa altura é menor que a menor mulher da história!");
+            }
+            else if(entradas[2].value<2.1){
+                alert("Não é permitido esse peso é menor que a pessoa mais leve do mundo!");
+            }
+            else if(entradas[2].value>413){
+                alert("Não é permitido esse valor esse peso é mais pesado que o homem mais pesado do mundo!");
+            }
+            else{
+                let criar_nome=document.createElement("td");
+                let criar_altura=document.createElement("td");
+                let criar_peso=document.createElement("td");
+                let criar_imc=document.createElement("td");
+                let criar_status=document.createElement("td");
+                let criar_opcoes=document.createElement("td");             
+                let conta_imc=entradas[2].value/(entradas[1].value*entradas[1].value);
+                if (conta_imc < 18.5) {
+                    criar_status.innerText="Abaixo do peso";
+                }
+                else if (conta_imc <= 24.9) {
+                    criar_status.innerText="Peso normal";
+                }
+                else if (conta_imc <= 29.9) {
+                    criar_status.innerText="Sobrepeso";
+                }
+                else {
+                    criar_status.innerText="Obesidade";
+                }
+                criar_nome.innerText=entradas[0].value;
+                criar_altura.innerText=entradas[1].value;
+                criar_peso.innerText=entradas[2].value;
+                criar_imc.innerText=Number(conta_imc);
+                let criar_botoes=document.createElement("td");
+                let mais_peso=document.createElement("button");
+                let menos_peso=document.createElement("button");
+                let remover=document.createElement("button");
+                mais_peso.id="botao1";
+                menos_peso.id="botao2";
+                remover.id="botao3";
+                mais_peso.innerText="+Peso";
+                menos_peso.innerText="-Peso";
+                remover.innerText="Remover";
+                mais_peso.addEventListener("click", () => {
+                    let peso_atual=Number(criar_peso.innerText);
+                    peso_atual++;
+                    criar_peso.innerText = peso_atual;
+                    let altura=Number(criar_altura.innerText);
+                    let nova_conta=peso_atual/(altura*altura);
+                    if (nova_conta < 18.5) {
+                        criar_status.innerText="Abaixo do peso";
+                    }
+                    else if (nova_conta <= 24.9) {
+                        criar_status.innerText="Peso normal";
+                    }
+                    else if (nova_conta <= 29.9) {
+                        criar_status.innerText="Sobrepeso";
+                    }
+                    else {
+                        criar_status.innerText="Obesidade";
+                    }
+                    criar_imc.innerText=nova_conta;
+                });
+                menos_peso.addEventListener("click",(e)=>{
+                    let peso_atual=Number(criar_peso.innerText);
+                    peso_atual--;
+                    criar_peso.innerText=peso_atual;
+                    let altura=Number(criar_altura.innerText);
+                    let nova_conta=peso_atual/(altura*altura);
+                    if (nova_conta < 18.5) {
+                        criar_status.innerText="Abaixo do peso";
+                    }
+                    else if (nova_conta <= 24.9) {
+                        criar_status.innerText="Peso normal";
+                    }
+                    else if (nova_conta <= 29.9) {
+                        criar_status.innerText="Sobrepeso";
+                    }
+                    else {
+                        criar_status.innerText="Obesidade";
+                    }
+                    criar_imc.innerText=nova_conta;
+                });
+                remover.addEventListener("click",(e)=>{
+                    let tr=criar_tr;
+                    tr.remove();
+                });
+                criar_botoes.append(mais_peso,menos_peso,remover);
+                criar_tr.append(criar_nome,criar_altura,criar_peso,criar_imc,criar_status,criar_botoes); 
+                corpo.append(criar_tr);
+            }
+        })
+    </script>
+</body>
+</html>
